@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CreateTaskController">
+   <children>
+      <Button fx:id="BtnCreateTask" layoutX="106.0" layoutY="332.0" mnemonicParsing="false" onAction="#createTask" text="Create Task" />
+      <DatePicker fx:id="dueDatePicker" layoutX="56.0" layoutY="277.0" promptText="Due Date" />
+      <TextArea fx:id="taskText" layoutX="54.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" promptText="Description" wrapText="true" />
+      <ListView fx:id="taskList" layoutX="300.0" layoutY="68.0" onMouseClicked="#gotoTaskDetail" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="355.0" layoutY="40.0" text="Open Tasks" />
+      <TextField fx:id="taskSummary" layoutX="54.0" layoutY="35.0" prefHeight="25.0" prefWidth="200.0" promptText="Summary" />
+      <TextArea fx:id="taskDescription" layoutX="300.0" layoutY="286.0" prefHeight="93.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>
