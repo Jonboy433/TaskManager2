@@ -1,66 +1,199 @@
 package application.logic;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import application.models.Task;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import application.dao.Task;
 
-public class TaskManager {
-	
+public class TaskManager implements TaskDAO {
+
 	private static TaskManager instance = null;
-	private List<Task> tasks;
-	private ObservableList<String> taskSummaries;
+	private Connection conn;
+	private List<String> taskSummaries;
 	
-	protected TaskManager() {
-		tasks = new ArrayList<Task>();
-		taskSummaries = FXCollections.observableArrayList();
+
+	private TaskManager() {
+		taskSummaries = new ArrayList<String>();
 	}
 
 	public static TaskManager getInstance() {
 		if (instance == null) {
 			instance = new TaskManager();
 		}
-		
+
 		return instance;
 	}
 
-	public void addTask(Task task) {
-		tasks.add(task);
-		updateTaskSummaries(task);
+	/* (non-Javadoc)
+	 * @see application.logic.TaskDAO#createTask(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public void createTask(Task task) throws SQLException {
+	
+		
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					String.format("INSERT into tasks('summary','description','due_date') values('%s','%s','%s')",
+							task.getSummary(), task.getDescription(), task.getDueDate()));
+			ps.executeUpdate();
+		
+				conn.close();
+			
+		
+		
+		/** WORKING BEFORE EXCEPTION TESTING
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement(
+					String.format("INSERT into tasks('summary','description','due_date') values('%s','%s','%s')",
+							task.getSummary(), task.getDescription(), task.getDueDate()));
+			ps.executeUpdate();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("Inside the SQLException block");
+			e1.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} */
 	}
-	
-	public void removeTask(Task task) {
-		tasks.remove(task);
+
+	// id = id value of the Task in DB
+	/* (non-Javadoc)
+	 * @see application.logic.TaskDAO#delete(int)
+	 */
+	@Override
+	public void deleteTask(int id) {
+
 	}
-	
-	
-	public int getTotalTaskCount() { 
-		return tasks.size();
+
+	// id = id value of the Task in DB
+	/* (non-Javadoc)
+	 * @see application.logic.TaskDAO#update(int)
+	 */
+	@Override
+	public void updateTask(int id) {
+
 	}
-	
-	public List<Task> getAllTasks() {
-		return tasks;
+
+	public int getAllTasksCount() {
+		return 0;
 	}
-	
-	public String getTaskSummaryByIndex(int taskIndex) {
-		return tasks.get(taskIndex).getTaskSummary();
-	}
-	
-	public String getTaskDescriptionByIndex(int taskIndex) {
-		return tasks.get(taskIndex).getTaskDescription();
-	}
-	
-	public String getTaskDueDateByIndex(int taskIndex) {
-		return tasks.get(taskIndex).getDueDate();
-	}
-	
-	public ObservableList<String> getAllTaskSummaries() {
+
+	public List<String> getAllTaskSummaries() {
+		ResultSet rs = null;
+		
+		//clear out the ObservableList on every method call
+		taskSummaries.clear();
+		
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT summary from tasks");
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				taskSummaries.add(rs.getString("summary"));
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
 		return taskSummaries;
 	}
 	
-	public void updateTaskSummaries(Task task) {
-		taskSummaries.add(task.getTaskSummary());
+	private Connection getConnection() {
+		try {
+			conn = DriverManager.getConnection("jdbc:sqlite:MySQLiteDB.db");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
+	}
+
+	@Override
+	public Task getTask(int id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	//Probably wont need to keep this around
+	public Map<Integer, Task> getTaskMap() {
+		Map<Integer, Task> map = new HashMap<Integer, Task>();
+		ResultSet rs;
+		
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks");
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				Task task = new Task(rs.getInt("id"),rs.getString("summary"),rs.getString("description"),rs.getString("due_date"));
+				map.put(task.getId(), task);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return map;
+	}
+
+	@Override
+	public List<Task> getAllTasks() {
+		
+		System.out.println("Getting all tasks");
+		
+		ResultSet rs;
+		List<Task> tasks = new ArrayList<Task>();
+		
+		try {
+			conn = getConnection();
+			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks");
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				Task task = new Task(rs.getInt("id"),rs.getString("summary"),rs.getString("description"),rs.getString("due_date"));
+				tasks.add(task);
+			}
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
+		
+		return tasks;
 	}
 }

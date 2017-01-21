@@ -1,7 +1,6 @@
 package application.controllers;
 
 import java.io.IOException;
-import java.net.URL;
 
 import application.logic.SceneGlobals;
 import application.main.Main;

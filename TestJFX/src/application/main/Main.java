@@ -2,13 +2,14 @@ package application.main;
 	
 import java.net.URL;
 
+import application.helpers.DBHelper;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 
 
@@ -24,6 +25,7 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
+		
 		try {
 			
 			URL menuBarUrl = getClass().getResource("/application/fxml/Menu.fxml");
@@ -34,11 +36,8 @@ public class Main extends Application {
 			
 			root.setTop(menuBar);
 			root.setBottom(anchorPane);
-			Scene scene = new Scene(root, 640, 480);
-			
-			
-		
-		
+			Scene scene = new Scene(root, 700, 680);
+	
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Task Manager Pro");
 			primaryStage.show();
@@ -48,6 +47,9 @@ public class Main extends Application {
 	}
 	
 	public static void main(String[] args) {
+		
+		//setup DB in case it does not already exist
+		DBHelper.DBinit();
 		
 		launch(args);
 	}

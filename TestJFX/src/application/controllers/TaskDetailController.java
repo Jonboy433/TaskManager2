@@ -1,10 +1,8 @@
 package application.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import application.logic.SceneGlobals;
 import application.logic.SceneManager;
 import application.logic.TaskManager;

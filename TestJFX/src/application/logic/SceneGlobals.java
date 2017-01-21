@@ -1,9 +1,6 @@
 package application.logic;
 
-import java.io.IOException;
 import java.net.URL;
-
-import javafx.fxml.FXMLLoader;
 
 public class SceneGlobals {
 	
