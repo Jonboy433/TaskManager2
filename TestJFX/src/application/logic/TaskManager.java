@@ -6,9 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import application.dao.Task;
 
@@ -16,10 +14,9 @@ public class TaskManager implements TaskDAO {
 
 	private static TaskManager instance = null;
 	private Connection conn;
-	private List<String> taskSummaries;
 
 	private TaskManager() {
-		taskSummaries = new ArrayList<String>();
+
 	}
 
 	public static TaskManager getInstance() {
@@ -80,34 +77,6 @@ public class TaskManager implements TaskDAO {
 		return 0;
 	}
 
-	public List<String> getAllTaskSummaries() {
-		ResultSet rs = null;
-
-		// clear out the ObservableList on every method call
-		taskSummaries.clear();
-
-		try {
-			conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT summary from tasks");
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				taskSummaries.add(rs.getString("summary"));
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return taskSummaries;
-	}
-
 	private Connection getConnection() {
 		try {
 			conn = DriverManager.getConnection("jdbc:sqlite:MySQLiteDB.db");
@@ -124,10 +93,13 @@ public class TaskManager implements TaskDAO {
 		return null;
 	}
 
-	// Probably wont need to keep this around
-	public Map<Integer, Task> getTaskMap() {
-		Map<Integer, Task> map = new HashMap<Integer, Task>();
+	@Override
+	public List<Task> getAllTasks() {
+
+		System.out.println("Task Manager - Getting all tasks");
+
 		ResultSet rs;
+		List<Task> tasks = new ArrayList<Task>();
 
 		try {
 			conn = getConnection();
@@ -137,7 +109,7 @@ public class TaskManager implements TaskDAO {
 			while (rs.next()) {
 				Task task = new Task(rs.getInt("id"), rs.getString("summary"), rs.getString("description"),
 						rs.getString("due_date"));
-				map.put(task.getId(), task);
+				tasks.add(task);
 			}
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -151,20 +123,21 @@ public class TaskManager implements TaskDAO {
 			}
 		}
 
-		return map;
+		return tasks;
 	}
-
+	
+	//Adding for new feature
 	@Override
-	public List<Task> getAllTasks() {
+	public List<Task> getAllTasksHistory() {
 
-		System.out.println("Getting all tasks");
+		System.out.println("Task Manager - Getting all historical tasks");
 
 		ResultSet rs;
 		List<Task> tasks = new ArrayList<Task>();
 
 		try {
 			conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks");
+			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks_history");
 			rs = ps.executeQuery();
 
 			while (rs.next()) {

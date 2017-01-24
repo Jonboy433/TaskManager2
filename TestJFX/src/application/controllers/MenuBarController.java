@@ -1,37 +1,30 @@
 package application.controllers;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 import application.logic.SceneGlobals;
-import application.main.Main;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.AnchorPane;
+import application.logic.SceneManager;
+import javafx.fxml.Initializable;
 
-public class MenuBarController {
+public class MenuBarController implements Initializable {
+	
+	SceneManager sceneManager;
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		sceneManager = SceneManager.getInstance();
+	}
 
+	public void gotoMain() {
+		sceneManager.switchScene(SceneGlobals.paneOneUrl);
+	}
+	
+	public void gotoHistory() {
+		sceneManager.switchScene(SceneGlobals.paneTwoUrl);
+	}
+	
 	public void Exit() {
 		System.exit(0);
-	}
-	
-	public void gotoPaneOne() {
-		
-		try {
-			AnchorPane paneOne = FXMLLoader.load(SceneGlobals.paneOneUrl);
-			Main.getRoot().setBottom(paneOne);
-		}
-		
-		catch (IOException e) {
-			System.out.println("Caught exception");
-		}  
-	}
-	
-	public void gotoPaneTwo() {
-		try {
-			AnchorPane paneTwo = FXMLLoader.load(SceneGlobals.paneTwoUrl);
-			Main.getRoot().setBottom(paneTwo);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }

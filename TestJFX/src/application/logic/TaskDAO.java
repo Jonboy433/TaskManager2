@@ -11,6 +11,8 @@ public interface TaskDAO {
 	
 	List<Task> getAllTasks();
 	
+	List<Task> getAllTasksHistory();
+	
 	Task getTask(int id);
 
 	// id = id value of the Task in DB

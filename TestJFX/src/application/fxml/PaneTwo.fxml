@@ -4,12 +4,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.TaskDetailController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.HistoryController">
    <children>
-      <Button fx:id="backBtn" layoutX="29.0" layoutY="358.0" mnemonicParsing="false" onAction="#loadTaskListView" text="Back" />
-      <TextArea fx:id="taskDetailDesc" layoutX="61.0" layoutY="121.0" prefHeight="200.0" prefWidth="474.0" />
-      <TextField fx:id="taskDetailSummary" layoutX="61.0" layoutY="68.0" prefHeight="25.0" prefWidth="212.0" />
-      <DatePicker fx:id="taskDetailDueDate" layoutX="380.0" layoutY="68.0" prefHeight="25.0" prefWidth="155.0" />
-      <Label layoutX="312.0" layoutY="73.0" text="Due Date" />
+      <Button fx:id="backBtn" layoutX="29.0" layoutY="512.0" mnemonicParsing="false" onAction="#gotoMain" text="Back" />
+      <TableView fx:id="historyTable" layoutX="25.0" layoutY="80.0" prefHeight="245.0" prefWidth="882.0">
+         <columns>
+            <TableColumn fx:id="sumCol" prefWidth="258.0" text="Summary" />
+            <TableColumn fx:id="descCol" prefWidth="489.0" text="Description" />
+            <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="134.0" text="Due Date" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

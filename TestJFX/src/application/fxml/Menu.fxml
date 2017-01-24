@@ -7,8 +7,8 @@
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
-            <MenuItem mnemonicParsing="false" onAction="#gotoPaneOne" text="Goto 1" />
-            <MenuItem mnemonicParsing="false" onAction="#gotoPaneTwo" text="Goto 2" />
+            <MenuItem fx:id="menuMain" mnemonicParsing="false" onAction="#gotoMain" text="Main Page" />
+            <MenuItem fx:id="menuHistory" mnemonicParsing="false" onAction="#gotoHistory" text="History" />
             <MenuItem mnemonicParsing="false" onAction="#Exit" text="Close" />
       </items>
     </Menu>
