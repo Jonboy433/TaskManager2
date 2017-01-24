@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="639.0" prefWidth="726.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CreateTaskController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="931.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controllers.CreateTaskController">
    <children>
-      <Button fx:id="BtnCreateTask" layoutX="106.0" layoutY="332.0" mnemonicParsing="false" onAction="#createTask" text="Create Task" />
-      <DatePicker fx:id="dueDatePicker" layoutX="56.0" layoutY="277.0" promptText="Due Date" />
-      <TextArea fx:id="taskText" layoutX="54.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" promptText="Description" wrapText="true" />
-      <ListView fx:id="taskList" layoutX="477.0" layoutY="42.0" onMouseClicked="#gotoTaskDetail" prefHeight="200.0" prefWidth="200.0" />
-      <Label layoutX="532.0" layoutY="14.0" text="Open Tasks" />
-      <TextField fx:id="taskSummary" layoutX="54.0" layoutY="35.0" prefHeight="25.0" prefWidth="200.0" promptText="Summary" />
-      <TextArea fx:id="taskDescription" layoutX="477.0" layoutY="260.0" prefHeight="93.0" prefWidth="200.0" />
-      <TableView fx:id="taskTable" layoutX="54.0" layoutY="389.0" prefHeight="207.0" prefWidth="623.0">
+      <Button fx:id="BtnCreateTask" layoutX="81.0" layoutY="332.0" mnemonicParsing="false" onAction="#createTask" text="Create Task" />
+      <DatePicker fx:id="dueDatePicker" layoutX="31.0" layoutY="277.0" promptText="Due Date" />
+      <TextArea fx:id="taskText" layoutX="29.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" promptText="Description" wrapText="true" />
+      <TextField fx:id="taskSummary" layoutX="29.0" layoutY="35.0" prefHeight="25.0" prefWidth="200.0" promptText="Summary" />
+      <TableView fx:id="taskTable" layoutX="278.0" layoutY="35.0" prefHeight="207.0" prefWidth="640.0">
          <columns>
             <TableColumn fx:id="sumCol" prefWidth="156.0" />
             <TableColumn fx:id="descCol" prefWidth="320.0" />
             <TableColumn fx:id="dateCol" minWidth="0.0" prefWidth="89.0" />
          </columns>
       </TableView>
+      <Button fx:id="deleteTask" layoutX="278.0" layoutY="256.0" mnemonicParsing="false" onAction="#deleteTask" prefHeight="25.0" prefWidth="106.0" text="Delete Task" />
+      <TextArea fx:id="descField" layoutX="278.0" layoutY="345.0" prefHeight="200.0" prefWidth="640.0" />
+      <TextField fx:id="summaryField" layoutX="278.0" layoutY="307.0" prefHeight="25.0" prefWidth="426.0" />
+      <DatePicker fx:id="dateField" layoutX="719.0" layoutY="307.0" />
+      <Button fx:id="updateTask" layoutX="278.0" layoutY="559.0" mnemonicParsing="false" onAction="#updateTask" prefHeight="25.0" prefWidth="106.0" text="Update Task" />
+      <ImageView layoutX="249.0" layoutY="347.0" onMouseClicked="#setEditable">
+         <image>
+            <Image url="@../../../../../Downloads/1485233763_15.Pencil.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

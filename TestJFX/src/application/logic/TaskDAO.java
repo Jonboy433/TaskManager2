@@ -14,9 +14,9 @@ public interface TaskDAO {
 	Task getTask(int id);
 
 	// id = id value of the Task in DB
-	void deleteTask(int id);
+	void deleteTask(int id) throws SQLException;
 
 	// id = id value of the Task in DB
-	void updateTask(int id);
+	void updateTask(int id, String summary, String desc, String dueDate) throws SQLException;
 
 }

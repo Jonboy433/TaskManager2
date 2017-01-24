@@ -36,10 +36,11 @@ public class Main extends Application {
 			
 			root.setTop(menuBar);
 			root.setBottom(anchorPane);
-			Scene scene = new Scene(root, 700, 680);
-	
+			//Scene scene = new Scene(root, 700, 680);
+			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.setTitle("Task Manager Pro");
+			primaryStage.setResizable(false);
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

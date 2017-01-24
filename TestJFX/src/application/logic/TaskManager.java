@@ -17,7 +17,6 @@ public class TaskManager implements TaskDAO {
 	private static TaskManager instance = null;
 	private Connection conn;
 	private List<String> taskSummaries;
-	
 
 	private TaskManager() {
 		taskSummaries = new ArrayList<String>();
@@ -31,61 +30,51 @@ public class TaskManager implements TaskDAO {
 		return instance;
 	}
 
-	/* (non-Javadoc)
-	 * @see application.logic.TaskDAO#createTask(java.lang.String, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see application.logic.TaskDAO#createTask(java.lang.String,
+	 * java.lang.String, java.lang.String)
 	 */
 	@Override
 	public void createTask(Task task) throws SQLException {
-	
-		
-			conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement(
-					String.format("INSERT into tasks('summary','description','due_date') values('%s','%s','%s')",
-							task.getSummary(), task.getDescription(), task.getDueDate()));
-			ps.executeUpdate();
-		
-				conn.close();
-			
-		
-		
-		/** WORKING BEFORE EXCEPTION TESTING
-		try {
-			conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement(
-					String.format("INSERT into tasks('summary','description','due_date') values('%s','%s','%s')",
-							task.getSummary(), task.getDescription(), task.getDueDate()));
-			ps.executeUpdate();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			System.out.println("Inside the SQLException block");
-			e1.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} */
+
+		conn = getConnection();
+		PreparedStatement ps = conn.prepareStatement(
+				String.format("INSERT into tasks('summary','description','due_date') values('%s','%s','%s')",
+						task.getSummary(), task.getDescription(), task.getDueDate()));
+		ps.executeUpdate();
+
+		conn.close();
+
 	}
 
 	// id = id value of the Task in DB
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see application.logic.TaskDAO#delete(int)
 	 */
 	@Override
-	public void deleteTask(int id) {
+	public void deleteTask(int id) throws SQLException {
+		conn = getConnection();
+		PreparedStatement ps = conn.prepareStatement(
+				String.format("DELETE from tasks where id='%s'",id));
+		ps.executeUpdate();
 
+		conn.close();
 	}
 
-	// id = id value of the Task in DB
-	/* (non-Javadoc)
-	 * @see application.logic.TaskDAO#update(int)
-	 */
-	@Override
-	public void updateTask(int id) {
+	public void updateTask(int id, String summary, String desc, String dueDate) throws SQLException {
 
+		conn = getConnection();
+		PreparedStatement ps = conn.prepareStatement(
+				String.format("UPDATE tasks " + 
+								"SET summary='%s', description='%s',due_date='%s' " +
+								"WHERE id='%d'", summary, desc, dueDate, id));
+		ps.executeUpdate();
 	}
+		
 
 	public int getAllTasksCount() {
 		return 0;
@@ -93,15 +82,15 @@ public class TaskManager implements TaskDAO {
 
 	public List<String> getAllTaskSummaries() {
 		ResultSet rs = null;
-		
-		//clear out the ObservableList on every method call
+
+		// clear out the ObservableList on every method call
 		taskSummaries.clear();
-		
+
 		try {
 			conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT summary from tasks");
 			rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
 				taskSummaries.add(rs.getString("summary"));
 			}
@@ -115,10 +104,10 @@ public class TaskManager implements TaskDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	
+		}
 		return taskSummaries;
 	}
-	
+
 	private Connection getConnection() {
 		try {
 			conn = DriverManager.getConnection("jdbc:sqlite:MySQLiteDB.db");
@@ -135,19 +124,19 @@ public class TaskManager implements TaskDAO {
 		return null;
 	}
 
-	
-	//Probably wont need to keep this around
+	// Probably wont need to keep this around
 	public Map<Integer, Task> getTaskMap() {
 		Map<Integer, Task> map = new HashMap<Integer, Task>();
 		ResultSet rs;
-		
+
 		try {
 			conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks");
 			rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-				Task task = new Task(rs.getInt("id"),rs.getString("summary"),rs.getString("description"),rs.getString("due_date"));
+				Task task = new Task(rs.getInt("id"), rs.getString("summary"), rs.getString("description"),
+						rs.getString("due_date"));
 				map.put(task.getId(), task);
 			}
 		} catch (SQLException e1) {
@@ -160,26 +149,27 @@ public class TaskManager implements TaskDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	
-		
+		}
+
 		return map;
 	}
 
 	@Override
 	public List<Task> getAllTasks() {
-		
+
 		System.out.println("Getting all tasks");
-		
+
 		ResultSet rs;
 		List<Task> tasks = new ArrayList<Task>();
-		
+
 		try {
 			conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement("SELECT * from tasks");
 			rs = ps.executeQuery();
-			
+
 			while (rs.next()) {
-				Task task = new Task(rs.getInt("id"),rs.getString("summary"),rs.getString("description"),rs.getString("due_date"));
+				Task task = new Task(rs.getInt("id"), rs.getString("summary"), rs.getString("description"),
+						rs.getString("due_date"));
 				tasks.add(task);
 			}
 		} catch (SQLException e1) {
@@ -192,8 +182,8 @@ public class TaskManager implements TaskDAO {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}	
-		
+		}
+
 		return tasks;
 	}
 }
