@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import application.dao.Task;
 import application.helpers.DisplayHelpers;
 import application.logic.SceneManager;
@@ -229,10 +228,13 @@ public class CreateTaskController implements Initializable {
 	}
 
 	public void setEditable() {
-		System.out.println("Task now editable...");
-		summaryField.setEditable(true);
-		descField.setEditable(true);
-		dateField.setDisable(false);
+		
+		if (!taskTable.getSelectionModel().isEmpty()) {
+			System.out.println("Task now editable...");
+			summaryField.setEditable(true);
+			descField.setEditable(true);
+			dateField.setDisable(false); 
+		}
 	}
 
 	private void clearTaskEntryFields() {
